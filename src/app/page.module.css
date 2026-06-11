@@ -131,26 +131,30 @@
   box-shadow: 0 4px 12px rgba(58, 13, 122, 0.3);
 }
 
-.coinIcon,
-.swordIcon {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
+.statIcon {
+  width: 1.15rem;
   flex-shrink: 0;
 }
 
-.coinIcon {
-  background: radial-gradient(circle at 35% 30%, #fff04d, #ffc200 45%, #e69500 100%);
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+.statIconGold {
+  color: #ffc200;
 }
 
-.swordIcon {
-  background: radial-gradient(circle at 35% 30%, #ff7eb3, #ff006e 55%, #d90058 100%);
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+.statIconTap {
+  color: #ff7eb3;
+}
+
+.statIconMult {
+  color: #7dd3fc;
+}
+
+.statIconCrit {
+  color: #fb923c;
 }
 
 .gold,
-.tap {
+.tap,
+.stat {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
@@ -301,6 +305,9 @@
   top: 1.25rem;
   left: 50%;
   transform: translateX(-50%) rotate(-2deg);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   padding: 0.45rem 2rem;
   font-size: 0.95rem;
   font-weight: 700;
@@ -311,6 +318,11 @@
   box-shadow: 0 4px 0 #c4004d;
   animation: bossRibbonWiggle 1.2s ease-in-out infinite;
   z-index: 2;
+}
+
+.bossIcon {
+  color: #ffc200;
+  font-size: 0.9rem;
 }
 
 @keyframes bossRibbonWiggle {
@@ -647,6 +659,10 @@
 }
 
 .shopHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 0.85rem 1.25rem;
   font-size: 1.1rem;
   font-weight: 700;
@@ -656,21 +672,26 @@
   background: linear-gradient(180deg, #38a3ff 0%, #0d8bf2 100%);
 }
 
-.shopDesc {
-  margin: 0;
-  padding: 1.25rem 1.5rem 0.5rem;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #7e3ad6;
-  text-align: center;
+.shopHeaderIcon {
+  font-size: 1rem;
+}
+
+.shopButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.25rem 1.5rem 1.5rem;
 }
 
 .buyButton {
-  display: block;
-  width: calc(100% - 3rem);
-  margin: 0.75rem auto 1.5rem;
-  padding: 0.9rem 1.25rem;
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.85rem 1.15rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #fff;
   background: linear-gradient(180deg, #9ee868 0%, #72d042 55%, #5cb838 100%);
@@ -681,7 +702,26 @@
     inset 0 2px 0 rgba(255, 255, 255, 0.38),
     0 5px 0 #45963c,
     0 8px 18px rgba(69, 150, 60, 0.32);
-  transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.15s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.buyIcon {
+  flex-shrink: 0;
+  width: 1rem;
+}
+
+.buyLabel {
+  flex: 1;
+  text-align: left;
+}
+
+.buyCost {
+  flex-shrink: 0;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 999px;
 }
 
 .buyButton:hover:not(:disabled) {
@@ -696,14 +736,112 @@
     0 4px 10px rgba(69, 150, 60, 0.28);
 }
 
-.buyButton:disabled {
-  opacity: 0.45;
+.buyButtonLocked {
+  color: #e2e8f0;
+  background: linear-gradient(180deg, #64748b 0%, #475569 55%, #334155 100%);
+  border: 2px solid #94a3b8;
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.35),
+    0 3px 0 #1e293b;
   cursor: not-allowed;
-  box-shadow: none;
+}
+
+.buyButtonLocked .buyIcon {
+  color: #cbd5e1;
+}
+
+.buyButtonLocked .buyCost {
+  color: #fcd34d;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.buyButtonLocked:hover,
+.buyButtonLocked:active {
+  transform: none;
 }
 
 .buyButtonReady {
   animation: buyButtonGlow 1.5s ease-in-out infinite;
+}
+
+.buyButtonGold {
+  background: linear-gradient(180deg, #ffe066 0%, #ffc200 55%, #e69500 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.38),
+    0 5px 0 #b8860b,
+    0 8px 18px rgba(184, 134, 11, 0.32);
+}
+
+.buyButtonGold:active:not(:disabled) {
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.38),
+    0 2px 0 #b8860b,
+    0 4px 10px rgba(184, 134, 11, 0.28);
+}
+
+.buyButtonCrit {
+  background: linear-gradient(180deg, #ff7eb3 0%, #ff006e 55%, #d90058 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.38),
+    0 5px 0 #a8004a,
+    0 8px 18px rgba(168, 0, 74, 0.32);
+}
+
+.buyButtonCrit:active:not(:disabled) {
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.38),
+    0 2px 0 #a8004a,
+    0 4px 10px rgba(168, 0, 74, 0.28);
+}
+
+.instructions {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+  margin: 2rem auto 0;
+  padding: 1rem 1.25rem 1.1rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+}
+
+.instructionsTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.instructionsIcon {
+  color: #ffc200;
+  font-size: 0.95rem;
+}
+
+.instructionsList {
+  margin: 0 auto;
+  padding-left: 1.25rem;
+  display: inline-block;
+  text-align: left;
+  list-style: decimal;
+}
+
+.instructionsList li {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #fff;
+  padding-left: 0.25rem;
+}
+
+.instructionsList li::marker {
+  color: #ffc200;
+  font-weight: 700;
 }
 
 @keyframes buyButtonGlow {

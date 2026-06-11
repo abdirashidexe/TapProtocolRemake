@@ -8,7 +8,7 @@ function monsterButton(page) {
 }
 
 function buyButton(page) {
-  return page.getByRole("button", { name: /Upgrade Tap/i });
+  return page.getByRole("button", { name: /Tap damage/i });
 }
 
 function hpText(page) {
@@ -123,7 +123,9 @@ test.describe("Tap Protocol", () => {
 
     await tapMonster(page, 15);
 
-    await expect(page.getByText(/Gold: 15/)).toBeVisible({ timeout: ASSERT_TIMEOUT });
+    const goldText = await page.getByText(/Gold: \d+/).textContent();
+    const gold = Number(goldText.match(/Gold: (\d+)/)[1]);
+    expect(gold).toBeGreaterThanOrEqual(15);
     await expect(buyButton(page)).toBeEnabled({ timeout: ASSERT_TIMEOUT });
   });
 

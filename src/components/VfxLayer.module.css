@@ -6,6 +6,36 @@
   z-index: 5;
 }
 
+.critDamage {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffea00;
+  text-shadow:
+    0 0 14px rgba(255, 234, 0, 0.95),
+    2px 2px 0 #fff,
+    0 4px 0 #ff006e;
+  animation: critPop 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay) forwards;
+}
+
+@keyframes critPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(-15deg);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -85%) scale(1.5) rotate(6deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -170%) scale(1.1) rotate(-4deg);
+  }
+}
+
 .damage {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -160,6 +190,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .damage,
+  .critDamage,
   .gold,
   .stageClear,
   .upgrade,
