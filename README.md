@@ -68,15 +68,22 @@ Unit tests assert literal outcomes (HP values, gold totals, stage transitions). 
 
 The site is configured for GitHub Pages with a production `basePath` of `/TapProtocolRemake`.
 
+**Important:** GitHub Pages runs Jekyll by default, which **ignores the `_next/` folder** where Next.js puts CSS and JS. The deploy script passes `--nojekyll` to disable Jekyll, and the build writes a `.nojekyll` marker into `out/`.
+
 ```bash
 npm run deploy
 ```
 
 Then in your repo: **Settings → Pages → Deploy from branch `gh-pages`**.
 
+After deploying, verify assets load at:
+`https://abdirashidexe.github.io/TapProtocolRemake/_next/static/css/` (should not 404).
+
 ## 📁 Project Structure
 
 ```
+public/          # Static files copied to out/ (includes .nojekyll)
+scripts/         # Build helpers
 src/
   app/           # Next.js pages and UI
   components/    # MonsterCanvas, VfxLayer, BackgroundParticles
