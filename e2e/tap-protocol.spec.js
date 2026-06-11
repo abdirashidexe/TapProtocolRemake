@@ -42,7 +42,9 @@ test.describe("Tap Protocol", () => {
       const stage = Number(stageText.replace("Stage ", ""));
 
       if (stage === 5) {
-        const img = page.getByRole("img");
+        const img = page
+          .getByRole("button", { name: /monster/i })
+          .locator("img");
         const src = await img.getAttribute("src");
         const alt = await img.getAttribute("alt");
         expect(src?.includes("boss") || alt?.toLowerCase().includes("boss")).toBe(
@@ -95,16 +97,14 @@ test.describe("Tap Protocol", () => {
 
     const hpMatch = await page.getByText(/HP: (\d+)/).textContent();
     const hp = Number(hpMatch.match(/HP: (\d+)/)[1]);
+    const tapsToKill = Math.ceil(hp / 2);
 
-    let clicks = 0;
-    while (clicks < hp) {
+    for (let i = 0; i < tapsToKill; i++) {
       await page.getByRole("button", { name: /monster/i }).click();
-      clicks++;
     }
 
-    const afterHp = await page.getByText(/HP: (\d+)/).textContent();
-    const remainingHp = Number(afterHp.match(/HP: (\d+)/)[1]);
-    expect(remainingHp).toBe(0);
-    expect(clicks).toBeLessThan(hp);
+    const stageAfter = await page.getByText(/Stage \d+/).textContent();
+    expect(tapsToKill).toBeLessThan(hp);
+    expect(stageAfter).toBe("Stage 3");
   });
 });

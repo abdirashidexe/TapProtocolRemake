@@ -1,0 +1,124 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #eaeaea;
+}
+
+.header {
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #e94560;
+}
+
+.stage {
+  margin: 0.25rem 0 0;
+  font-size: 1.1rem;
+  color: #a8b2d1;
+}
+
+.arena {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 360px;
+}
+
+.monsterName {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.monsterButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  padding: 0;
+  border: 3px solid #e94560;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #2a2a4a, #1a1a2e);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: 0 4px 20px rgba(233, 69, 96, 0.3);
+}
+
+.monsterButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 28px rgba(233, 69, 96, 0.45);
+}
+
+.monsterButton:active {
+  transform: scale(0.95);
+}
+
+.monsterImage {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hp {
+  margin: 0;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+  color: #4ecca3;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.gold {
+  margin: 0;
+  color: #ffd700;
+}
+
+.tap {
+  margin: 0;
+  color: #a8b2d1;
+}
+
+.shop {
+  margin-top: 0.5rem;
+}
+
+.buyButton {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  background: #4ecca3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.buyButton:hover:not(:disabled) {
+  background: #3db892;
+}
+
+.buyButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
