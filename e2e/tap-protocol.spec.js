@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const ASSERT_TIMEOUT = 5000;
+const STAGE_1_HP = 10;
 
 function monsterButton(page) {
   return page.getByRole("button", { name: /monster/i });
@@ -45,24 +46,42 @@ async function advanceToStage(page, targetStage) {
   }
 }
 
+async function killCurrentMonster(page) {
+  const stageBefore = await stageText(page).textContent();
+  let clicks = 0;
+
+  while ((await stageText(page).textContent()) === stageBefore) {
+    await monsterButton(page).click();
+    clicks++;
+  }
+
+  return clicks;
+}
+
 test.describe("Tap Protocol", () => {
   test("page loads with monster name, HP, and gold at 0", async ({ page }) => {
     await page.goto("/");
 
     await expect(page.getByText(/Lv\./)).toBeVisible({ timeout: ASSERT_TIMEOUT });
-    await expect(page.getByText(/HP:/)).toBeVisible({ timeout: ASSERT_TIMEOUT });
+    await expect(hpText(page)).toHaveText(`HP: ${STAGE_1_HP} / ${STAGE_1_HP}`, {
+      timeout: ASSERT_TIMEOUT,
+    });
     await expect(page.getByText(/Gold: 0/)).toBeVisible({ timeout: ASSERT_TIMEOUT });
   });
 
-  test("clicking monster reduces HP", async ({ page }) => {
+  test("clicking monster reduces HP and awards gold", async ({ page }) => {
     await page.goto("/");
 
-    const hp = hpText(page);
-    const before = await hp.textContent();
+    await expect(hpText(page)).toHaveText(`HP: ${STAGE_1_HP} / ${STAGE_1_HP}`, {
+      timeout: ASSERT_TIMEOUT,
+    });
 
     await monsterButton(page).click();
 
-    await expect(hp).not.toHaveText(before ?? "", { timeout: ASSERT_TIMEOUT });
+    await expect(hpText(page)).toHaveText(`HP: ${STAGE_1_HP - 1} / ${STAGE_1_HP}`, {
+      timeout: ASSERT_TIMEOUT,
+    });
+    await expect(page.getByText(/Gold: 1/)).toBeVisible({ timeout: ASSERT_TIMEOUT });
   });
 
   test("clicking monster enough times advances stage", async ({ page }) => {
@@ -71,7 +90,7 @@ test.describe("Tap Protocol", () => {
     const stage = stageText(page);
     await expect(stage).toHaveText("Stage 1", { timeout: ASSERT_TIMEOUT });
 
-    await tapMonster(page, 10);
+    await tapMonster(page, STAGE_1_HP);
 
     await expect(stage).toHaveText("Stage 2", { timeout: ASSERT_TIMEOUT });
   });
@@ -96,6 +115,7 @@ test.describe("Tap Protocol", () => {
     await page.goto("/");
 
     await expect(buyButton(page)).toBeDisabled({ timeout: ASSERT_TIMEOUT });
+    await expect(page.getByText(/Gold: 0/)).toBeVisible({ timeout: ASSERT_TIMEOUT });
   });
 
   test("buy button enabled after 15 clicks", async ({ page }) => {
@@ -103,6 +123,7 @@ test.describe("Tap Protocol", () => {
 
     await tapMonster(page, 15);
 
+    await expect(page.getByText(/Gold: 15/)).toBeVisible({ timeout: ASSERT_TIMEOUT });
     await expect(buyButton(page)).toBeEnabled({ timeout: ASSERT_TIMEOUT });
   });
 
@@ -112,16 +133,19 @@ test.describe("Tap Protocol", () => {
     await tapMonster(page, 15);
     await expect(buyButton(page)).toBeEnabled({ timeout: ASSERT_TIMEOUT });
 
-    const hp = await currentHp(page);
-    const clicksAtTap1 = hp;
+    const hpBeforeUpgrade = await currentHp(page);
+    await expect(page.getByText(/Tap damage: 1/)).toBeVisible({
+      timeout: ASSERT_TIMEOUT,
+    });
 
     await buyButton(page).click();
 
-    const clicksAtTap2 = Math.ceil(hp / 2);
-    expect(clicksAtTap2).toBeLessThan(clicksAtTap1);
+    await expect(page.getByText(/Tap damage: 2/)).toBeVisible({
+      timeout: ASSERT_TIMEOUT,
+    });
 
-    await tapMonster(page, clicksAtTap2);
+    const clicksToKill = await killCurrentMonster(page);
 
-    await expect(stageText(page)).toHaveText("Stage 3", { timeout: ASSERT_TIMEOUT });
+    expect(clicksToKill).toBeLessThan(hpBeforeUpgrade);
   });
 });
