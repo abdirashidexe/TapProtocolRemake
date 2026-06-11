@@ -1,0 +1,169 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.damage {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ff2d6a;
+  text-shadow:
+    0 0 8px rgba(255, 45, 106, 0.8),
+    2px 2px 0 #fff,
+    0 3px 0 #c4004d;
+  animation: damagePop 0.85s cubic-bezier(0.22, 1, 0.36, 1) var(--delay) forwards;
+}
+
+.gold {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffc200;
+  text-shadow:
+    0 0 10px rgba(255, 194, 0, 0.9),
+    1px 1px 0 #fff,
+    0 2px 0 #b8860b;
+  animation: goldPop 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay) forwards;
+}
+
+.stageClear {
+  position: absolute;
+  left: 50% !important;
+  top: 42% !important;
+  transform: translate(-50%, -50%);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff;
+  text-shadow:
+    0 0 20px rgba(255, 215, 0, 0.95),
+    0 3px 0 #ff006e,
+    0 6px 0 #6b21c8;
+  animation: stageClearPop 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  white-space: nowrap;
+}
+
+.upgrade {
+  position: absolute;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow:
+    0 0 16px rgba(114, 208, 66, 0.95),
+    0 2px 0 #45963c;
+  animation: upgradePop 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  white-space: nowrap;
+}
+
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsl(var(--hue), 95%, 60%);
+  box-shadow: 0 0 12px hsl(var(--hue), 95%, 65%);
+  animation: particleBurst 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--delay) forwards;
+}
+
+@keyframes damagePop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(-12deg);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -80%) scale(1.35) rotate(4deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -160%) scale(0.85) rotate(-6deg);
+  }
+}
+
+@keyframes goldPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -70%) scale(1.2);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-30%, -140%) scale(0.9);
+  }
+}
+
+@keyframes stageClearPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(-8deg);
+  }
+
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.4) rotate(3deg);
+  }
+
+  30% {
+    transform: translate(-50%, -50%) scale(1.1) rotate(-2deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -90%) scale(1.6) rotate(0deg);
+  }
+}
+
+@keyframes upgradePop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.25);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -120%) scale(1.1);
+  }
+}
+
+@keyframes particleBurst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .damage,
+  .gold,
+  .stageClear,
+  .upgrade,
+  .particle {
+    animation-duration: 0.01ms !important;
+  }
+}

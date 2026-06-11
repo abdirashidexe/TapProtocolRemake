@@ -1,0 +1,37 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hit {
+  animation: monsterHit 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes monsterHit {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  20% {
+    transform: scale(0.82, 1.12) rotate(-8deg);
+  }
+
+  45% {
+    transform: scale(1.14, 0.9) rotate(6deg);
+  }
+
+  70% {
+    transform: scale(0.96, 1.04) rotate(-3deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hit {
+    animation: none;
+  }
+}

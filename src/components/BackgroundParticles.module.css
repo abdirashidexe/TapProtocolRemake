@@ -1,0 +1,85 @@
+.field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.emojiParticle,
+.shapeParticle {
+  position: absolute;
+  bottom: -10%;
+  animation-name: floatUp;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  opacity: 0;
+}
+
+.emojiParticle {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.45));
+}
+
+.shapeParticle {
+  border-radius: 50%;
+}
+
+.dot {
+  background: hsl(var(--hue), 90%, 70%);
+  box-shadow: 0 0 12px hsl(var(--hue), 90%, 65%);
+}
+
+.ring {
+  background: transparent;
+  border: 2px solid hsla(var(--hue), 90%, 75%, 0.7);
+  box-shadow: 0 0 10px hsla(var(--hue), 90%, 65%, 0.5);
+}
+
+.star {
+  background: hsl(var(--hue), 95%, 75%);
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+  box-shadow: 0 0 14px hsl(var(--hue), 95%, 70%);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(0.6);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: translate(var(--drift), -55vh) rotate(180deg) scale(1);
+    opacity: 0.7;
+  }
+
+  92% {
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translate(calc(var(--drift) * 1.4), -110vh) rotate(360deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emojiParticle,
+  .shapeParticle {
+    display: none;
+  }
+}

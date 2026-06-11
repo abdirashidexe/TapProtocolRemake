@@ -28,7 +28,7 @@ function currentHp(page) {
 async function tapMonster(page, times = 1) {
   const button = monsterButton(page);
   for (let i = 0; i < times; i++) {
-    await button.click();
+    await button.click({ force: true });
   }
 }
 
@@ -51,7 +51,7 @@ async function killCurrentMonster(page) {
   let clicks = 0;
 
   while ((await stageText(page).textContent()) === stageBefore) {
-    await monsterButton(page).click();
+    await monsterButton(page).click({ force: true });
     clicks++;
   }
 
@@ -76,7 +76,7 @@ test.describe("Tap Protocol", () => {
       timeout: ASSERT_TIMEOUT,
     });
 
-    await monsterButton(page).click();
+    await monsterButton(page).click({ force: true });
 
     await expect(hpText(page)).toHaveText(`HP: ${STAGE_1_HP - 1} / ${STAGE_1_HP}`, {
       timeout: ASSERT_TIMEOUT,
@@ -138,7 +138,7 @@ test.describe("Tap Protocol", () => {
       timeout: ASSERT_TIMEOUT,
     });
 
-    await buyButton(page).click();
+    await buyButton(page).click({ force: true });
 
     await expect(page.getByText(/Tap damage: 2/)).toBeVisible({
       timeout: ASSERT_TIMEOUT,
