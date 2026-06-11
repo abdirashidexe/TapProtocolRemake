@@ -1,124 +1,305 @@
 .main {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 2rem 1rem;
-  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  color: #eaeaea;
+  padding: 2rem 2.5rem 3rem;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.12), transparent 28%),
+    radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.08), transparent 24%),
+    linear-gradient(160deg, #a855f7 0%, #8b2fd9 45%, #6d22c4 100%);
 }
 
-.header {
-  text-align: center;
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto 1.25rem;
 }
 
 .title {
   margin: 0;
-  font-size: 2rem;
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
   font-weight: 700;
-  letter-spacing: 0.05em;
-  color: #e94560;
+  color: #fff;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 3px 0 #6b21c8,
+    0 5px 0 #581c9e,
+    0 8px 18px rgba(58, 13, 122, 0.4);
 }
 
-.stage {
-  margin: 0.25rem 0 0;
-  font-size: 1.1rem;
-  color: #a8b2d1;
+.currencies {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.arena {
+.currency {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1rem 0.55rem 0.75rem;
+  background: rgba(76, 17, 163, 0.65);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(58, 13, 122, 0.3);
+}
+
+.coinIcon,
+.swordIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.coinIcon {
+  background: radial-gradient(circle at 35% 30%, #fff04d, #ffc200 45%, #e69500 100%);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.swordIcon {
+  background: radial-gradient(circle at 35% 30%, #ff7eb3, #ff006e 55%, #d90058 100%);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.gold,
+.tap {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stagePill {
+  width: fit-content;
+  margin: 0 auto 1.5rem;
+  padding: 0.5rem 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  background: #6b21c8;
+  border: 3px solid #fff;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(58, 13, 122, 0.35);
+}
+
+.gameBoard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.arenaCard,
+.shopCard {
+  background: #fff;
+  border-radius: 28px;
+  box-shadow:
+    0 10px 0 rgba(88, 28, 158, 0.16),
+    0 18px 36px rgba(58, 13, 122, 0.22);
+}
+
+.arenaCard {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 360px;
+  gap: 1.25rem;
+  padding: 2rem 2.5rem 2.25rem;
+  overflow: hidden;
+}
+
+.bossRibbon {
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  padding: 0.45rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: linear-gradient(180deg, #ff3d8a 0%, #ff006e 55%, #e0005a 100%);
+  border-radius: 8px;
+  box-shadow: 0 4px 0 #c4004d;
 }
 
 .monsterName {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+  margin: 0.5rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #6b21c8;
 }
 
 .monsterButton {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 200px;
-  height: 200px;
+  width: 260px;
+  height: 260px;
   padding: 0;
-  border: 3px solid #e94560;
+  border: none;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #2a2a4a, #1a1a2e);
+  background: linear-gradient(180deg, #f5e8ff 0%, #ddb8ff 100%);
   cursor: pointer;
+  box-shadow:
+    inset 0 4px 0 rgba(255, 255, 255, 0.85),
+    0 8px 0 #a855f7,
+    0 14px 28px rgba(109, 34, 196, 0.35);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
-  box-shadow: 0 4px 20px rgba(233, 69, 96, 0.3);
 }
 
 .monsterButton:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 28px rgba(233, 69, 96, 0.45);
+  transform: translateY(-2px);
 }
 
 .monsterButton:active {
-  transform: scale(0.95);
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 4px 0 rgba(255, 255, 255, 0.85),
+    0 4px 0 #a855f7,
+    0 8px 16px rgba(109, 34, 196, 0.28);
 }
 
-.monsterImage {
-  width: 140px;
-  height: 140px;
-  object-fit: contain;
+.monsterGlow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.45) 0%, transparent 70%);
+}
+
+.monsterCanvas {
+  position: relative;
+  width: 180px;
+  height: 180px;
   pointer-events: none;
   user-select: none;
+  filter: drop-shadow(0 8px 12px rgba(109, 34, 196, 0.28));
+}
+
+.hpBlock {
+  width: min(100%, 420px);
 }
 
 .hp {
-  margin: 0;
+  margin: 0 0 0.5rem;
   font-size: 1.1rem;
+  font-weight: 600;
+  color: #6b21c8;
   font-variant-numeric: tabular-nums;
-  color: #4ecca3;
+  text-align: center;
 }
 
-.stats {
-  display: flex;
-  gap: 2rem;
+.hpBarTrack {
+  height: 18px;
+  background: #e9d5ff;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(109, 34, 196, 0.18);
+}
+
+.hpBarFill {
+  height: 100%;
+  background: linear-gradient(180deg, #4ade3a 0%, #22c50e 55%, #16a80a 100%);
+  border-radius: 999px;
+  transition: width 0.15s ease;
+}
+
+.shopCard {
+  padding: 0;
+  overflow: hidden;
+}
+
+.shopHeader {
+  padding: 0.85rem 1.25rem;
   font-size: 1.1rem;
-  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.04em;
+  background: linear-gradient(180deg, #38a3ff 0%, #0d8bf2 100%);
 }
 
-.gold {
+.shopDesc {
   margin: 0;
-  color: #ffd700;
-}
-
-.tap {
-  margin: 0;
-  color: #a8b2d1;
-}
-
-.shop {
-  margin-top: 0.5rem;
+  padding: 1.25rem 1.5rem 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #7e3ad6;
+  text-align: center;
 }
 
 .buyButton {
-  padding: 0.75rem 1.5rem;
+  display: block;
+  width: calc(100% - 3rem);
+  margin: 0.75rem auto 1.5rem;
+  padding: 0.9rem 1.25rem;
   font-size: 1rem;
-  font-weight: 600;
-  color: #1a1a2e;
-  background: #4ecca3;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(180deg, #9ee868 0%, #72d042 55%, #5cb838 100%);
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   cursor: pointer;
-  transition: background 0.15s ease, opacity 0.15s ease;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.38),
+    0 5px 0 #45963c,
+    0 8px 18px rgba(69, 150, 60, 0.32);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.15s ease;
 }
 
 .buyButton:hover:not(:disabled) {
-  background: #3db892;
+  transform: translateY(-1px);
+}
+
+.buyButton:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.38),
+    0 2px 0 #45963c,
+    0 4px 10px rgba(69, 150, 60, 0.28);
 }
 
 .buyButton:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .main {
+    padding: 1.5rem 1.25rem 2rem;
+  }
+
+  .topBar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .currencies {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .gameBoard {
+    grid-template-columns: 1fr;
+  }
+
+  .monsterButton {
+    width: 220px;
+    height: 220px;
+  }
+
+  .monsterCanvas {
+    width: 150px;
+    height: 150px;
+  }
 }

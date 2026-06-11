@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 import {
   stageHp,
   stageName,
-  monsterImage,
+  monsterEmoji,
+  isBossStage,
   nextTapCost,
   createInitialState,
   applyTap,
@@ -31,23 +32,32 @@ describe("stageName", () => {
   });
 });
 
-describe("monsterImage", () => {
-  it("returns boss image on every 5th stage", () => {
-    expect(monsterImage(5)).toBe("/images/boss.png");
-    expect(monsterImage(10)).toBe("/images/boss.png");
+describe("isBossStage", () => {
+  it("is true only on multiples of 5", () => {
+    expect(isBossStage(5)).toBe(true);
+    expect(isBossStage(10)).toBe(true);
+    expect(isBossStage(4)).toBe(false);
+    expect(isBossStage(6)).toBe(false);
+  });
+});
+
+describe("monsterEmoji", () => {
+  it("returns boss emoji on every 5th stage", () => {
+    expect(monsterEmoji(5)).toBe("🐉");
+    expect(monsterEmoji(10)).toBe("🐉");
   });
 
-  it("cycles through regular images for non-boss stages", () => {
-    expect(monsterImage(1)).toBe("/images/goblin.png");
-    expect(monsterImage(2)).toBe("/images/slime.png");
-    expect(monsterImage(3)).toBe("/images/skeleton.png");
-    expect(monsterImage(4)).toBe("/images/orc.png");
-    expect(monsterImage(6)).toBe("/images/slime.png");
+  it("cycles through regular emojis for non-boss stages", () => {
+    expect(monsterEmoji(1)).toBe("👺");
+    expect(monsterEmoji(2)).toBe("🟢");
+    expect(monsterEmoji(3)).toBe("💀");
+    expect(monsterEmoji(4)).toBe("👹");
+    expect(monsterEmoji(6)).toBe("🟢");
   });
 
-  it("does not return boss image on stages 4 or 6", () => {
-    expect(monsterImage(4)).not.toBe("/images/boss.png");
-    expect(monsterImage(6)).not.toBe("/images/boss.png");
+  it("does not return boss emoji on stages 4 or 6", () => {
+    expect(monsterEmoji(4)).not.toBe("🐉");
+    expect(monsterEmoji(6)).not.toBe("🐉");
   });
 });
 

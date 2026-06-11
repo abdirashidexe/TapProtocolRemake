@@ -1,13 +1,8 @@
 const STAGE_NAMES = ["Goblin", "Slime", "Skeleton", "Orc", "Wraith"];
 
-const MONSTER_IMAGES = [
-  "/images/goblin.png",
-  "/images/slime.png",
-  "/images/skeleton.png",
-  "/images/orc.png",
-];
+const MONSTER_EMOJIS = ["👺", "🟢", "💀", "👹"];
 
-const BOSS_IMAGE = "/images/boss.png";
+const BOSS_EMOJI = "🐉";
 
 export function stageHp(stage) {
   return Math.floor(10 * Math.pow(1.35, stage - 1));
@@ -18,12 +13,16 @@ export function stageName(stage) {
   return `${name} Lv. ${stage}`;
 }
 
-export function monsterImage(stage) {
-  if (stage % 5 === 0) {
-    return BOSS_IMAGE;
+export function isBossStage(stage) {
+  return stage % 5 === 0;
+}
+
+export function monsterEmoji(stage) {
+  if (isBossStage(stage)) {
+    return BOSS_EMOJI;
   }
 
-  return MONSTER_IMAGES[(stage - 1) % MONSTER_IMAGES.length];
+  return MONSTER_EMOJIS[(stage - 1) % MONSTER_EMOJIS.length];
 }
 
 export function nextTapCost(cost) {

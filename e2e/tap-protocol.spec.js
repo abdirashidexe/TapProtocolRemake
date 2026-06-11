@@ -95,20 +95,20 @@ test.describe("Tap Protocol", () => {
     await expect(stage).toHaveText("Stage 2", { timeout: ASSERT_TIMEOUT });
   });
 
-  test("stage 5 shows boss image", async ({ page }) => {
+  test("stage 5 shows boss monster", async ({ page }) => {
     await page.goto("/");
 
     await advanceToStage(page, 5);
 
     await expect(stageText(page)).toHaveText("Stage 5", { timeout: ASSERT_TIMEOUT });
-
-    const img = monsterButton(page).locator("img");
-    const src = await img.getAttribute("src");
-    const alt = await img.getAttribute("alt");
-
-    expect(
-      src?.includes("boss") || alt?.toLowerCase().includes("boss"),
-    ).toBe(true);
+    await expect(monsterButton(page)).toHaveAttribute("aria-label", /boss/i, {
+      timeout: ASSERT_TIMEOUT,
+    });
+    await expect(monsterButton(page).locator("canvas")).toHaveAttribute(
+      "data-boss",
+      "true",
+      { timeout: ASSERT_TIMEOUT },
+    );
   });
 
   test("buy button disabled at start with 0 gold", async ({ page }) => {
