@@ -2,13 +2,23 @@ import { test, expect } from "@playwright/test";
 
 const ASSERT_TIMEOUT = 5000;
 const STAGE_1_HP = 10;
+const STAGE_2_HP = 12;
+const FIRST_TAP_UPGRADE_COST = 15;
 
 function monsterButton(page) {
   return page.getByRole("button", { name: /monster/i });
 }
 
-function buyButton(page) {
+function tapDamageButton(page) {
   return page.getByRole("button", { name: /Tap damage/i });
+}
+
+function goldMultButton(page) {
+  return page.getByRole("button", { name: /Gold multiplier/i });
+}
+
+function critButton(page) {
+  return page.getByRole("button", { name: /Crit chance/i });
 }
 
 function hpText(page) {
@@ -84,15 +94,15 @@ test.describe("Tap Protocol", () => {
     await expect(page.getByText(/Gold: 1/)).toBeVisible({ timeout: ASSERT_TIMEOUT });
   });
 
-  test("clicking monster enough times advances stage", async ({ page }) => {
+  test("clearing stage 1 advances to stage 2 with scaled HP", async ({ page }) => {
     await page.goto("/");
-
-    const stage = stageText(page);
-    await expect(stage).toHaveText("Stage 1", { timeout: ASSERT_TIMEOUT });
 
     await tapMonster(page, STAGE_1_HP);
 
-    await expect(stage).toHaveText("Stage 2", { timeout: ASSERT_TIMEOUT });
+    await expect(stageText(page)).toHaveText("Stage 2", { timeout: ASSERT_TIMEOUT });
+    await expect(hpText(page)).toHaveText(`HP: ${STAGE_2_HP} / ${STAGE_2_HP}`, {
+      timeout: ASSERT_TIMEOUT,
+    });
   });
 
   test("stage 5 shows boss monster", async ({ page }) => {
@@ -111,36 +121,37 @@ test.describe("Tap Protocol", () => {
     );
   });
 
-  test("buy button disabled at start with 0 gold", async ({ page }) => {
+  test("shop upgrades are locked until the player can afford them", async ({ page }) => {
     await page.goto("/");
 
-    await expect(buyButton(page)).toBeDisabled({ timeout: ASSERT_TIMEOUT });
-    await expect(page.getByText(/Gold: 0/)).toBeVisible({ timeout: ASSERT_TIMEOUT });
+    await expect(tapDamageButton(page)).toBeDisabled({ timeout: ASSERT_TIMEOUT });
+    await expect(goldMultButton(page)).toBeDisabled({ timeout: ASSERT_TIMEOUT });
+    await expect(critButton(page)).toBeDisabled({ timeout: ASSERT_TIMEOUT });
   });
 
-  test("buy button enabled after 15 clicks", async ({ page }) => {
+  test("tap damage upgrade unlocks after earning enough gold", async ({ page }) => {
     await page.goto("/");
 
-    await tapMonster(page, 15);
+    await tapMonster(page, FIRST_TAP_UPGRADE_COST);
 
     const goldText = await page.getByText(/Gold: \d+/).textContent();
     const gold = Number(goldText.match(/Gold: (\d+)/)[1]);
-    expect(gold).toBeGreaterThanOrEqual(15);
-    await expect(buyButton(page)).toBeEnabled({ timeout: ASSERT_TIMEOUT });
+    expect(gold).toBeGreaterThanOrEqual(FIRST_TAP_UPGRADE_COST);
+    await expect(tapDamageButton(page)).toBeEnabled({ timeout: ASSERT_TIMEOUT });
   });
 
-  test("after buying, fewer clicks needed to kill monster", async ({ page }) => {
+  test("buying tap damage reduces clicks needed to kill the current monster", async ({ page }) => {
     await page.goto("/");
 
-    await tapMonster(page, 15);
-    await expect(buyButton(page)).toBeEnabled({ timeout: ASSERT_TIMEOUT });
+    await tapMonster(page, FIRST_TAP_UPGRADE_COST);
+    await expect(tapDamageButton(page)).toBeEnabled({ timeout: ASSERT_TIMEOUT });
 
     const hpBeforeUpgrade = await currentHp(page);
     await expect(page.getByText(/Tap damage: 1/)).toBeVisible({
       timeout: ASSERT_TIMEOUT,
     });
 
-    await buyButton(page).click({ force: true });
+    await tapDamageButton(page).click({ force: true });
 
     await expect(page.getByText(/Tap damage: 2/)).toBeVisible({
       timeout: ASSERT_TIMEOUT,
